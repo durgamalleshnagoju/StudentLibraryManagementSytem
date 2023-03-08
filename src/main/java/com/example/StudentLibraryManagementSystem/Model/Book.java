@@ -2,9 +2,18 @@ package com.example.StudentLibraryManagementSystem.Model;
 
 import com.example.StudentLibraryManagementSystem.Enums.Genre;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Book {
 
     @Id
@@ -17,6 +26,8 @@ public class Book {
 
     private double rating;
 
+    private boolean issued;
+
     @Enumerated(value = EnumType.STRING)
     private Genre genre;
 
@@ -28,62 +39,8 @@ public class Book {
     @JoinColumn
     private Card card;
 
-    public Book() {
-    }
+    @OneToMany(mappedBy = "book",cascade = CascadeType.ALL)
+    private List<Transactions> listOfTransactions = new ArrayList<>();
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getPages() {
-        return pages;
-    }
-
-    public void setPages(int pages) {
-        this.pages = pages;
-    }
-
-    public double getRating() {
-        return rating;
-    }
-
-    public void setRating(double rating) {
-        this.rating = rating;
-    }
-
-    public Genre getGenre() {
-        return genre;
-    }
-
-    public void setGenre(Genre genre) {
-        this.genre = genre;
-    }
-
-    public Author getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(Author author) {
-        this.author = author;
-    }
-
-    public Card getCard() {
-        return card;
-    }
-
-    public void setCard(Card card) {
-        this.card = card;
-    }
 }
