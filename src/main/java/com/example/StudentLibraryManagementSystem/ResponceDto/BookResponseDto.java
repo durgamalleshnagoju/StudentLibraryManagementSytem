@@ -1,4 +1,4 @@
-package com.example.StudentLibraryManagementSystem.Dtos;
+package com.example.StudentLibraryManagementSystem.ResponceDto;
 
 import com.example.StudentLibraryManagementSystem.Enums.Genre;
 import lombok.AllArgsConstructor;

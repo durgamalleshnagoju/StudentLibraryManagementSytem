@@ -1,10 +1,11 @@
 package com.example.StudentLibraryManagementSystem.Controllers;
 
-import com.example.StudentLibraryManagementSystem.Dtos.AuthorEntryDto;
-import com.example.StudentLibraryManagementSystem.Dtos.AuthorResponseDto;
-import com.example.StudentLibraryManagementSystem.Model.Author;
+import com.example.StudentLibraryManagementSystem.RequestDto.AuthorRequestDto;
+import com.example.StudentLibraryManagementSystem.ResponceDto.AuthorResponseDto;
 import com.example.StudentLibraryManagementSystem.Services.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,13 +16,23 @@ public class AuthorController {
     AuthorService authorService;
 
     @PostMapping("/add")
-    public String addAuthor(@RequestBody AuthorEntryDto authorEntryDto){
+    public ResponseEntity addAuthor(@RequestBody AuthorRequestDto authorRequestDto){
+        try{
+            String response = authorService.createAuthor(authorRequestDto);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
 
-        return authorService.createAuthor(authorEntryDto);
     }
 
     @GetMapping("/getAuthor")
-    public AuthorResponseDto getAuthor(@RequestParam("authorId")Integer authorId){
-        return authorService.getAuthor(authorId);
+    public ResponseEntity getAuthor(@RequestParam("authorId")Integer authorId){
+        try{
+            AuthorResponseDto response = authorService.getAuthor(authorId);
+            return new ResponseEntity<>(response, HttpStatus.FOUND);
+        } catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
     }
 }

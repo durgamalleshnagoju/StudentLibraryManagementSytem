@@ -1,8 +1,11 @@
 package com.example.StudentLibraryManagementSystem.Controllers;
 
-import com.example.StudentLibraryManagementSystem.Dtos.BookReturnDto;
+import com.example.StudentLibraryManagementSystem.RequestDto.BookReturnRequestDto;
+import com.example.StudentLibraryManagementSystem.ResponceDto.BookResponseDto;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
-import com.example.StudentLibraryManagementSystem.Dtos.IssueBookRequestDto;
+import com.example.StudentLibraryManagementSystem.RequestDto.IssueBookRequestDto;
 import com.example.StudentLibraryManagementSystem.Services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,28 +19,35 @@ public class TransactionsController {
     TransactionService transactionService;
 
     @PostMapping("issueBook")
-    public String issueBook(@RequestBody IssueBookRequestDto issueBookRequestDto){
+    public ResponseEntity issueBook(@RequestBody IssueBookRequestDto issueBookRequestDto){
 
         try{
-            return transactionService.issueBook(issueBookRequestDto);
+            String response = transactionService.issueBook(issueBookRequestDto);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
         }catch (Exception e){
-            return e.getMessage();
+            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
 
     }
 
     @GetMapping("/getTxnInfo")
-    public String getTransactionEntry(@RequestParam("bookId")Integer bookId,@RequestParam
+    public ResponseEntity getTransactionEntry(@RequestParam("bookId")Integer bookId,@RequestParam
             ("cardId")Integer cardId){
+        try{
+            String response = transactionService.getTransactions(bookId,cardId);
+            return new ResponseEntity<>(response,HttpStatus.FOUND);
+        } catch (Exception e){
+            return new ResponseEntity<>("Transaction not found", HttpStatus.NOT_FOUND);
+        }
 
-        return transactionService.getTransactions(bookId,cardId);
     }
     @PostMapping("/returnBook")
-    public String returnBook(@RequestBody BookReturnDto bookReturnDto){
+    public ResponseEntity returnBook(@RequestBody BookReturnRequestDto bookReturnRequestDto){
         try{
-            return transactionService.returnBook(bookReturnDto);
+            String response = transactionService.returnBook(bookReturnRequestDto);
+            return new ResponseEntity<>(response,HttpStatus.ACCEPTED);
         } catch (Exception e){
-            return e.getMessage();
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
 

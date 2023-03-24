@@ -1,4 +1,4 @@
-package com.example.StudentLibraryManagementSystem.Dtos;
+package com.example.StudentLibraryManagementSystem.RequestDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

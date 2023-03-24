@@ -1,13 +1,13 @@
-package com.example.StudentLibraryManagementSystem.Dtos;
+package com.example.StudentLibraryManagementSystem.RequestDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class IssueBookRequestDto {
+@AllArgsConstructor
+public class BookReturnRequestDto {
 
     private int bookId;
     private int cardId;

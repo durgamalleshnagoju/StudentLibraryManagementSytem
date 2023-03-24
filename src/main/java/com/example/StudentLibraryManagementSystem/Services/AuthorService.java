@@ -1,8 +1,8 @@
 package com.example.StudentLibraryManagementSystem.Services;
 
-import com.example.StudentLibraryManagementSystem.Dtos.AuthorEntryDto;
-import com.example.StudentLibraryManagementSystem.Dtos.AuthorResponseDto;
-import com.example.StudentLibraryManagementSystem.Dtos.BookResponseDto;
+import com.example.StudentLibraryManagementSystem.RequestDto.AuthorRequestDto;
+import com.example.StudentLibraryManagementSystem.ResponceDto.AuthorResponseDto;
+import com.example.StudentLibraryManagementSystem.ResponceDto.BookResponseDto;
 import com.example.StudentLibraryManagementSystem.Model.Author;
 import com.example.StudentLibraryManagementSystem.Model.Book;
 import com.example.StudentLibraryManagementSystem.Repositories.AuthorRepository;
@@ -18,19 +18,20 @@ public class AuthorService {
     @Autowired
     AuthorRepository authorRepository;
 
-    public String createAuthor(AuthorEntryDto authorEntryDto){
+    public String createAuthor(AuthorRequestDto authorRequestDto)throws Exception{
         Author author = new Author();
 
-        author.setName(authorEntryDto.getName());
-        author.setAge(authorEntryDto.getAge());
-        author.setCountry(authorEntryDto.getCountry());
-        author.setRating(authorEntryDto.getRating());
+        author.setName(authorRequestDto.getName());
+        author.setAge(authorRequestDto.getAge());
+        author.setCountry(authorRequestDto.getCountry());
+        author.setRating(authorRequestDto.getRating());
 
         authorRepository.save(author);
         return "Author created Successfully";
     }
 
-    public AuthorResponseDto getAuthor(Integer authorId){
+    public AuthorResponseDto getAuthor(Integer authorId)throws Exception{
+
 
         Author author =  authorRepository.findById(authorId).get();
         AuthorResponseDto authorResponseDto = new AuthorResponseDto();
@@ -54,6 +55,8 @@ public class AuthorService {
         authorResponseDto.setName(author.getName());
         authorResponseDto.setAge(author.getAge());
         authorResponseDto.setRating(author.getRating());
+        authorResponseDto.setCountry(author.getCountry());
+
 
         return authorResponseDto;
 

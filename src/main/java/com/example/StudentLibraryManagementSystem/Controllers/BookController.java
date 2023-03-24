@@ -1,11 +1,10 @@
 package com.example.StudentLibraryManagementSystem.Controllers;
 
-import com.example.StudentLibraryManagementSystem.Dtos.BookRequestDto;
-import com.example.StudentLibraryManagementSystem.Dtos.StudentUpdateMobRequestDto;
-import com.example.StudentLibraryManagementSystem.Model.Book;
+import com.example.StudentLibraryManagementSystem.RequestDto.BookRequestDto;
 import com.example.StudentLibraryManagementSystem.Services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,11 +17,12 @@ public class BookController {
 
 
     @PostMapping("/add")
-    public String addBook(@RequestBody BookRequestDto bookRequestDto){
+    public ResponseEntity addBook(@RequestBody BookRequestDto bookRequestDto){
         try{
-            return bookService.addBook(bookRequestDto);
+            String result =  bookService.addBook(bookRequestDto);
+            return new ResponseEntity(result, HttpStatus.CREATED);
         }catch (Exception e){
-            return "Exception in adding the book";
+            return new ResponseEntity<>("Exception in adding the book",HttpStatus.BAD_REQUEST);
         }
 
     }

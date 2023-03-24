@@ -1,7 +1,9 @@
 package com.example.StudentLibraryManagementSystem.Services;
 
-import com.example.StudentLibraryManagementSystem.Dtos.BookReturnDto;
-import com.example.StudentLibraryManagementSystem.Dtos.IssueBookRequestDto;
+import com.example.StudentLibraryManagementSystem.RequestDto.BookReturnRequestDto;
+import com.example.StudentLibraryManagementSystem.ResponceDto.BookResponseDto;
+//import com.example.StudentLibraryManagementSystem.ResponceDto.Dtos.BookResponseDto;
+import com.example.StudentLibraryManagementSystem.RequestDto.IssueBookRequestDto;
 import com.example.StudentLibraryManagementSystem.Enums.CardStatus;
 import com.example.StudentLibraryManagementSystem.Enums.TransactionStatus;
 import com.example.StudentLibraryManagementSystem.Model.Book;
@@ -13,7 +15,6 @@ import com.example.StudentLibraryManagementSystem.Repositories.TransactionReposi
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -100,10 +101,10 @@ public class TransactionService {
         return "Book issued successfully";
     }
 
-    public String returnBook(BookReturnDto bookReturnDto)throws Exception{
+    public String returnBook(BookReturnRequestDto bookReturnRequestDto)throws Exception{
 
-        Book book = bookRepository.findById(bookReturnDto.getBookId()).get();
-        Card card = cardRepository.findById(bookReturnDto.getCardId()).get();
+        Book book = bookRepository.findById(bookReturnRequestDto.getBookId()).get();
+        Card card = cardRepository.findById(bookReturnRequestDto.getCardId()).get();
         Transactions transactions = new Transactions();
         transactions.setTransactionId(UUID.randomUUID().toString());
         transactions.setTransactionStatus(TransactionStatus.PENDING);
@@ -127,7 +128,7 @@ public class TransactionService {
         }
 
         // if passes the conditions
-        transactions.setFine(calculateFine(bookReturnDto));
+        transactions.setFine(calculateFine(bookReturnRequestDto));
 
         transactions.setTransactionStatus(TransactionStatus.SUCCESS);
         // updating parents
@@ -148,10 +149,10 @@ public class TransactionService {
         return transactionId;
     }
 
-    private int calculateFine(BookReturnDto bookReturnDto){
+    private int calculateFine(BookReturnRequestDto bookReturnRequestDto){
         int fine = 0;
         int daysGiven = Transactions.noOfDaysAllowed;
-        Date LastTransaction = getLastTransaction(bookReturnDto.getBookId(),bookReturnDto.getCardId());
+        Date LastTransaction = getLastTransaction(bookReturnRequestDto.getBookId(), bookReturnRequestDto.getCardId());
         Date today = new Date();
 
         long LastTransactionMinutes = LastTransaction.getTime();
