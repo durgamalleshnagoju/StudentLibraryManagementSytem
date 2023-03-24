@@ -5,6 +5,7 @@ import com.example.StudentLibraryManagementSystem.Model.Author;
 import com.example.StudentLibraryManagementSystem.Model.Book;
 import com.example.StudentLibraryManagementSystem.Repositories.AuthorRepository;
 import com.example.StudentLibraryManagementSystem.Repositories.BookRepository;
+import com.example.StudentLibraryManagementSystem.ResponceDto.BookResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,5 +53,18 @@ public class BookService {
             bookRepository.save(book);
             return "book status changed to true";
         }
+    }
+    public String deleteBook(int id)throws Exception{
+        bookRepository.findById(id).get();
+        bookRepository.deleteById(id);
+        return "Book deleted successfully";
+    }
+    public BookResponseDto getBook(int id)throws Exception{
+        Book book = bookRepository.findById(id).get();
+        BookResponseDto responseDto = BookResponseDto.builder()
+                .pages(book.getPages())
+                .name(book.getName())
+                .genre(book.getGenre()).build();
+        return responseDto;
     }
 }

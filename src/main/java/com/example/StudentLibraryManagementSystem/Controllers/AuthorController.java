@@ -35,4 +35,13 @@ public class AuthorController {
             return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
+    @DeleteMapping("/deleteAuthor/{id}")
+    public ResponseEntity deleteAuthor(@PathVariable("id") int authorId){
+        try{
+            String result = authorService.deleteAuthor(authorId);
+            return new ResponseEntity<>(result, HttpStatus.FOUND);
+        } catch (Exception e){
+            return new ResponseEntity<>("No author found in database", HttpStatus.NOT_FOUND);
+        }
+    }
 }

@@ -11,3 +11,6 @@ public class StudentLibraryManagementSystemApplication {
 		SpringApplication.run(StudentLibraryManagementSystemApplication.class, args);
 	}
 }
+
+//swagger ui link
+//http://localhost:9999/swagger-ui/index.html#/

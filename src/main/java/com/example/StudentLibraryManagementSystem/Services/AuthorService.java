@@ -61,4 +61,10 @@ public class AuthorService {
         return authorResponseDto;
 
     }
+
+    public String deleteAuthor(int authorId)throws Exception{
+        authorRepository.findById(authorId).get();
+        authorRepository.deleteById(authorId);
+        return "Author Deleted Successfully";
+    }
 }
